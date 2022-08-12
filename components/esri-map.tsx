@@ -21,9 +21,13 @@ function EsriMap() {
             const view = new SceneView({
                 map,
                 container: mapDiv.current,
-
+                viewingMode: 'global',
+                camera: {
+                    position: [-63.77153412, 20.75790715, 25512548.0],
+                    heading: 0.0,
+                    tilt: 0.1,
+                },
                 zoom: 15,
-                center: [deg.long, deg.lat],
             });
             const search = new Search({
                 //Add Search widget
