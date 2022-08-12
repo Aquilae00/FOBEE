@@ -1,0 +1,299 @@
+{
+    "serviceItemId": "8caae1bf59c841b895f4463c6be3a392",
+    "serviceName": "OpenStreetMap3D_Buildings_v1",
+    "name": "OpenStreetMap3D_Buildings_v1",
+    "currentVersion": 10.81,
+    "serviceVersion": "2.0",
+    "supportedBindings": ["REST"],
+    "layers": [{
+        "id": 0,
+        "version": "30393460-01fc-4583-b62e-bb89991e9cff",
+        "name": "OpenStreetMap Buildings",
+        "layerType": "3DObject",
+        "fullExtent": {
+            "xmin": -180,
+            "xmax": 180,
+            "ymin": -90,
+            "ymax": 90,
+            "zmin": 0,
+            "zmax": 4637193.027061098
+        },
+        "spatialReference": { "wkid": 4326 },
+        "description": "daylight v1.15, builder v0.8 | This 3D base layer presents buildings of OpenStreetMap (OSM) data hosted by Esri. Esri created this 3D buildings layer from the Daylight map distribution of OSM data, which is supported by Meta and supplemented with additional data from Microsoft. The 3D base layer buildings will be updated every month with the latest version of OSM Daylight data.",
+        "priority": "Low",
+        "copyrightText": "Map data OpenStreetMap contributors, Microsoft Building Footprints, Scene Layer by ESRI",
+        "capabilities": ["View", "Query"],
+        "store": {
+            "profile": "meshpyramids",
+            "version": "2.0",
+            "rootNode": "./nodes/root",
+            "lodType": "AutoThinning",
+            "lodModel": "node-switching",
+            "defaultGeometrySchema": {
+                "header": [
+                    { "property": "vertexCount", "type": "UInt32" },
+                    { "property": "featureCount", "type": "UInt32" }
+                ],
+                "topology": "PerAttributeArray",
+                "ordering": [],
+                "vertexAttributes": {
+                    "position": { "valueType": "Float32", "valuesPerElement": 3 }
+                },
+                "featureAttributeOrder": ["id", "faceRange"],
+                "featureAttributes": {
+                    "id": { "valueType": "UInt64", "valuesPerElement": 1 },
+                    "faceRange": { "valueType": "UInt32", "valuesPerElement": 2 }
+                }
+            }
+        },
+        "fields": [
+            { "name": "ObjectID", "type": "esriFieldTypeOID", "alias": "ObjectID" },
+            { "name": "OSMID", "type": "esriFieldTypeDouble", "alias": "OSMID" },
+            { "name": "OSMType", "type": "esriFieldTypeInteger", "alias": "OSMType" },
+            { "name": "name", "type": "esriFieldTypeString", "alias": "name" },
+            { "name": "building", "type": "esriFieldTypeString", "alias": "building" },
+            { "name": "height", "type": "esriFieldTypeSingle", "alias": "height" },
+            {
+                "name": "building_levels",
+                "type": "esriFieldTypeInteger",
+                "alias": "building_levels"
+            },
+            { "name": "json_attrs", "type": "esriFieldTypeString", "alias": "json_attrs" }
+        ],
+        "attributeStorageInfo": [{
+                "key": "f_0",
+                "name": "ObjectID",
+                "header": [{ "property": "count", "valueType": "UInt32" }],
+                "ordering": ["attributeValues"],
+                "attributeValues": { "valueType": "Float64", "valuesPerElement": 1 }
+            },
+            {
+                "key": "f_1",
+                "name": "OSMID",
+                "header": [{ "property": "count", "valueType": "UInt32" }],
+                "ordering": ["attributeValues"],
+                "attributeValues": { "valueType": "Float64", "valuesPerElement": 1 }
+            },
+            {
+                "key": "f_2",
+                "name": "OSMType",
+                "header": [{ "property": "count", "valueType": "UInt32" }],
+                "ordering": ["attributeValues"],
+                "attributeValues": { "valueType": "UInt8", "valuesPerElement": 1 }
+            },
+            {
+                "key": "f_3",
+                "name": "name",
+                "header": [
+                    { "property": "count", "valueType": "UInt32" },
+                    { "property": "attributeValuesByteCount", "valueType": "UInt32" }
+                ],
+                "ordering": ["attributeByteCounts", "attributeValues"],
+                "attributeByteCounts": { "valueType": "UInt32", "valuesPerElement": 1 },
+                "attributeValues": {
+                    "valueType": "String",
+                    "valuesPerElement": 1,
+                    "encoding": "UTF-8"
+                }
+            },
+            {
+                "key": "f_4",
+                "name": "building",
+                "header": [
+                    { "property": "count", "valueType": "UInt32" },
+                    { "property": "attributeValuesByteCount", "valueType": "UInt32" }
+                ],
+                "ordering": ["attributeByteCounts", "attributeValues"],
+                "attributeByteCounts": { "valueType": "UInt32", "valuesPerElement": 1 },
+                "attributeValues": {
+                    "valueType": "String",
+                    "valuesPerElement": 1,
+                    "encoding": "UTF-8"
+                }
+            },
+            {
+                "key": "f_5",
+                "name": "height",
+                "header": [{ "property": "count", "valueType": "UInt32" }],
+                "ordering": ["attributeValues"],
+                "attributeValues": { "valueType": "Float32", "valuesPerElement": 1 }
+            },
+            {
+                "key": "f_6",
+                "name": "building_levels",
+                "header": [{ "property": "count", "valueType": "UInt32" }],
+                "ordering": ["attributeValues"],
+                "attributeValues": { "valueType": "UInt16", "valuesPerElement": 1 }
+            },
+            {
+                "key": "f_7",
+                "name": "json_attrs",
+                "header": [
+                    { "property": "count", "valueType": "UInt32" },
+                    { "property": "attributeValuesByteCount", "valueType": "UInt32" }
+                ],
+                "ordering": ["attributeByteCounts", "attributeValues"],
+                "attributeByteCounts": { "valueType": "UInt32", "valuesPerElement": 1 },
+                "attributeValues": {
+                    "valueType": "String",
+                    "valuesPerElement": 1,
+                    "encoding": "UTF-8"
+                }
+            }
+        ],
+        "statisticsInfo": [
+            { "key": "f_5", "name": "height", "href": "./statistics/f_5/0" },
+            { "key": "f_6", "name": "building_levels", "href": "./statistics/f_6/0" },
+            { "key": "f_4", "name": "building", "href": "./statistics/f_4/0" }
+        ],
+        "drawingInfo": {
+            "renderer": {
+                "type": "simple",
+                "symbol": {
+                    "type": "MeshSymbol3D",
+                    "symbolLayers": [{
+                        "type": "Fill",
+                        "material": {
+                            "color": [255, 255, 255],
+                            "transparency": 0,
+                            "colorMixMode": "replace"
+                        }
+                    }]
+                }
+            }
+        },
+        "popupInfo": {
+            "title": "OSM 3D Buildings",
+            "mediaInfos": [],
+            "fieldInfos": [{
+                    "fieldName": "expression/osm_name",
+                    "label": "Name",
+                    "visible": true,
+                    "isEditable": false
+                },
+                {
+                    "fieldName": "expression/osm_building",
+                    "label": "Building",
+                    "visible": true,
+                    "isEditable": false
+                },
+                {
+                    "fieldName": "expression/osm_height",
+                    "label": "Height",
+                    "visible": true,
+                    "isEditable": false
+                },
+                {
+                    "fieldName": "expression/osm_bld_levels",
+                    "label": "Levels",
+                    "visible": true,
+                    "isEditable": false
+                }
+            ],
+            "popupElements": [{
+                    "fieldInfos": [{
+                            "fieldName": "expression/osm_name",
+                            "label": "Name",
+                            "visible": true,
+                            "isEditable": false
+                        },
+                        {
+                            "fieldName": "expression/osm_building",
+                            "label": "Building",
+                            "visible": true,
+                            "isEditable": false
+                        },
+                        {
+                            "fieldName": "expression/osm_height",
+                            "label": "Height",
+                            "visible": true,
+                            "isEditable": false
+                        },
+                        {
+                            "fieldName": "expression/osm_bld_levels",
+                            "label": "Levels",
+                            "visible": true,
+                            "isEditable": false
+                        }
+                    ],
+                    "type": "fields"
+                },
+                {
+                    "type": "text",
+                    "text": "<p><a href=https://www.openstreetmap.org/{expression/feature_url} target=\"_blank\" rel=\"nofollow ugc\">{expression/view_this_feature}</a>&nbsp;{expression/in_osm}<br><a href=https://www.openstreetmap.org/edit?{expression/feature_url} target=\"_blank\" rel=\"nofollow ugc\">{expression/edit_this_feature}</a>&nbsp;{expression/in_osm}<br><strong>{expression/aggregated_message}<strong><br><strong>Data {expression/copyright_msg}</strong>"
+                }
+            ],
+            "expressionInfos": [{
+                    "name": "osm_name",
+                    "title": "Name",
+                    "expression": "decode($feature.OSMType,3,'', $feature['name'] )",
+                    "returnType": "string"
+                },
+                {
+                    "name": "osm_building",
+                    "title": "Building",
+                    "expression": "decode($feature.OSMType,3,'', $feature['building'] )",
+                    "returnType": "string"
+                },
+                {
+                    "name": "osm_height",
+                    "title": "Height",
+                    "expression": "decode($feature.OSMType, 3, '', Text($feature['height'], '#,##0.###'))",
+                    "returnType": "string"
+                },
+                {
+                    "name": "osm_bld_levels",
+                    "title": "Levels",
+                    "expression": "decode($feature.OSMType,3,'', $feature['building_levels'] )",
+                    "returnType": "string"
+                },
+                {
+                    "name": "feature_url",
+                    "title": "feature_url",
+                    "expression": "decode($feature.OSMType,0,'way/' + $feature['OSMID'],1,'relation/' + $feature['OSMID'],2,'MS','?')",
+                    "returnType": "string"
+                },
+                {
+                    "name": "aggregated_message",
+                    "title": "aggregated_message",
+                    "expression": "decode($feature.OSMType,3,'Aggregated buildings on low level of detail.','')",
+                    "returnType": "string"
+                },
+                {
+                    "name": "view_this_feature",
+                    "title": "view_this_feature",
+                    "expression": "decode($feature.OSMType,2,'',3,'','View this feature')",
+                    "returnType": "string"
+                },
+                {
+                    "name": "edit_this_feature",
+                    "title": "edit_this_feature",
+                    "expression": "decode($feature.OSMType,2,'',3,'','Edit this feature')",
+                    "returnType": "string"
+                },
+                {
+                    "name": "in_osm",
+                    "title": "in_osm",
+                    "expression": "decode($feature.OSMType,2,'',3,'','in OpenStreetMap')",
+                    "returnType": "string"
+                },
+                {
+                    "name": "copyright_msg",
+                    "title": "copyright_msg",
+                    "expression": "decode($feature.OSMType,2,'by Microsoft and Esri Community Maps contributors','© OpenStreetMap contributors')",
+                    "returnType": "string"
+                }
+            ]
+        },
+        "elevationInfo": { "mode": "relativeToGround" },
+        "nodePages": { "nodesPerPage": 84, "lodSelectionMetricType": "maxScreenThreshold" },
+        "geometryDefinitions": [{
+            "geometryBuffers": [{
+                "compressedAttributes": {
+                    "encoding": "draco",
+                    "attributes": ["position", "feature-index"]
+                }
+            }]
+        }]
+    }]
+}
