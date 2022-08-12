@@ -23,7 +23,7 @@ function EsriMap() {
                 container: mapDiv.current,
                 viewingMode: 'global',
                 camera: {
-                    position: [-63.77153412, 20.75790715, 25512548.0],
+                    position: {x: -63.77153412, y: 20.75790715, z: 25512548.0},
                     heading: 0.0,
                     tilt: 0.1,
                 },
