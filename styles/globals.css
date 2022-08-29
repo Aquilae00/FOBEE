@@ -18,6 +18,10 @@ a {
     box-sizing: border-box;
 }
 
+.esri-popup__main-container {
+    @apply opacity-90 bg-black text-white backdrop-blur-sm rounded-md
+}
+
 @media (prefers-color-scheme: dark) {
     html {
         color-scheme: dark;

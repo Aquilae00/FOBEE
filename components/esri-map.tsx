@@ -7,8 +7,15 @@ import Search from '@arcgis/core/widgets/Search';
 import SketchViewModel from '@arcgis/core/widgets/Sketch/SketchViewModel';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import locator from '@arcgis/core/rest/locator';
-
+import Polygon from '@arcgis/core/geometry/Polygon';
 import CustomContent from '@arcgis/core/popup/content/CustomContent';
+import ReactDOMServer from 'react-dom/server';
+import Popup from './popup';
+import Extent from '@arcgis/core/geometry/Extent';
+import Graphic from '@arcgis/core/Graphic';
+import * as geometryEngine from '@arcgis/core/geometry/geometryEngine';
+const overpass = require('query-overpass');
+const geojsonArea = require('@mapbox/geojson-area');
 function EsriMap() {
     const mapDiv = useRef(null);
     const queryDiv = useRef(null);
@@ -34,7 +41,7 @@ function EsriMap() {
                 zoom: 15,
             });
             view.ui.add([queryDiv.current], 'bottom-left');
-
+            const graphicsLayer = new GraphicsLayer();
             let sceneLayerView: __esri.SceneLayerView | null = null;
 
             const sketchLayer = new GraphicsLayer();
@@ -64,13 +71,15 @@ function EsriMap() {
             view.ui.add(search, 'top-right');
             let sceneLayer = new SceneLayer({
                 url: 'https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer',
+
                 outFields: ['*'],
             });
 
             sceneLayer.when(() => {
                 view.whenLayerView(sceneLayer).then((layerView) => (sceneLayerView = layerView));
             });
-
+            sceneLayer.capabilities.query.supportsQueryGeometry = true;
+            sceneLayer.capabilities.query.supportsGeometryProperties = true;
             let highlightSelect;
             view.popup.autoOpenEnabled = false;
             view.on('click', (event) => {
@@ -79,21 +88,48 @@ function EsriMap() {
 
                 view.hitTest(event).then((response) => {
                     const firstLayer = response.results[0];
+                    console.log(firstLayer);
+
                     if (firstLayer?.type === 'graphic') {
                         if (highlightSelect) {
                             highlightSelect.remove();
                         }
                         const attributes = firstLayer?.graphic?.attributes;
                         highlightSelect = sceneLayerView?.highlight(attributes['ObjectID']);
-                        console.log(attributes);
-                        const fieldInfos = Object.keys(attributes).map((key) => ({
-                            label: key,
-                            visible: true,
-                        }));
+                        // const point = view.toMap(event);
+                        // const queryExtent = sceneLayerView
+                        //     ?.queryFeatures({
+                        //         objectIds: [attributes['ObjectID']],
+                        //         returnGeometry: true,
+                        //         outFields: ['*'],
+                        //     })
+                        //     .then((extent) => {
+                        //         console.log(extent.queryGeometry);
+                        //     });
+                        const osmid = attributes['OSMID'];
+                        const response = overpass(
+                            `[out:json][timeout:25];
+                        way(${osmid});
+                        out geom;`,
+                            (a, b) => {
+                                console.log('a');
+                                console.log(a);
+                                console.log('b');
+                                console.log(b);
+                                console.log(b.features[0].geometry.coordinates[0]);
+
+                                const area = geojsonArea.geometry(b.features[0].geometry);
+                                console.log('area' + area);
+                            }
+                        );
+
+                        const test = ReactDOMServer.renderToStaticMarkup(
+                            <Popup data={{lon, lat, ...attributes}} />
+                        );
                         view.popup.open({
                             location: event.mapPoint,
                             title: 'reeee',
-                            content: '<table><tr><td>ree</td></tr></table>',
+                            content: test,
                         });
                     }
                 });
@@ -227,7 +263,7 @@ function EsriMap() {
             //     }
             // });
 
-            map.addMany([sceneLayer]);
+            map.addMany([graphicsLayer, sceneLayer]);
         }
     }, []);
 
