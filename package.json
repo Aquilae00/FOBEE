@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@arcgis/core": "^4.24.7",
+    "@headlessui/react": "^1.6.6",
     "@mapbox/geojson-area": "^0.2.2",
     "axios": "^0.27.2",
     "nanoid": "^4.0.0",

@@ -1,3 +1,4 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
@@ -15,6 +16,11 @@ module.exports = {
                 '2xl': `${18 * 0.25}em`,
                 '20%': '20%',
                 '50%': '50%',
+            },
+            fontSize: {
+                xxs: ['10px', '10px'],
+                md: ['1.05rem', '1.5rem'],
+                ...defaultTheme.fontSize,
             },
         },
     },
