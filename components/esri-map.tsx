@@ -14,8 +14,11 @@ import Popup from './popup';
 import Extent from '@arcgis/core/geometry/Extent';
 import Graphic from '@arcgis/core/Graphic';
 import * as geometryEngine from '@arcgis/core/geometry/geometryEngine';
+import ClipLoader from 'react-spinners/ClipLoader';
+import BeatLoader from 'react-spinners/BeatLoader';
 const overpass = require('query-overpass');
 const geojsonArea = require('@mapbox/geojson-area');
+
 function EsriMap() {
     const mapDiv = useRef(null);
     const queryDiv = useRef(null);
@@ -106,11 +109,22 @@ function EsriMap() {
                         //     .then((extent) => {
                         //         console.log(extent.queryGeometry);
                         //     });
+
+                        const spinner = ReactDOMServer.renderToStaticMarkup(
+                            <div className='flex w-full justify-center items-center opacity-80'>
+                                <BeatLoader color='#44f905' />
+                            </div>
+                        );
+                        view.popup.open({
+                            location: event.mapPoint,
+                            content: spinner,
+                        });
                         const osmid = attributes['OSMID'];
+
                         const response = overpass(
                             `[out:json][timeout:25];
-                        way(${osmid});
-                        out geom;`,
+                    way(${osmid});
+                    out geom;`,
                             (a, b) => {
                                 console.log('a');
                                 console.log(a);
@@ -119,122 +133,28 @@ function EsriMap() {
                                 console.log(b.features[0].geometry.coordinates[0]);
 
                                 const area = geojsonArea.geometry(b.features[0].geometry);
-                                console.log('area' + area);
+                                view.popup.close();
+                                const popup = ReactDOMServer.renderToString(
+                                    <Popup
+                                        data={{
+                                            osmid: attributes['OSMID'],
+                                            height: attributes['height'],
+                                            area,
+                                        }}
+                                    />
+                                );
+                                view.popup.open({
+                                    location: event.mapPoint,
+                                    title: 'reeee',
+                                    content: popup,
+                                });
                             }
                         );
-
-                        const test = ReactDOMServer.renderToStaticMarkup(
-                            <Popup data={{lon, lat, ...attributes}} />
-                        );
-                        view.popup.open({
-                            location: event.mapPoint,
-                            title: 'reeee',
-                            content: test,
-                        });
                     }
                 });
             });
 
             view.popup.watch('visible', (bool) => bool || highlightSelect?.remove());
-            // sceneLayer.popupTemplate = {
-            //     content: [
-            //         {
-            //             type: 'fields',
-            //             fieldInfos: [
-            //                 {
-            //                     fieldName: 'expression/osm_name',
-            //                     label: 'Name',
-            //                     visible: true,
-            //                     isEditable: false,
-            //                 },
-            //                 {
-            //                     fieldName: 'expression/osm_building',
-            //                     label: 'Building',
-            //                     visible: true,
-            //                     isEditable: false,
-            //                 },
-            //                 {
-            //                     fieldName: 'expression/osm_height',
-            //                     label: 'Height',
-            //                     visible: true,
-            //                     isEditable: false,
-            //                 },
-            //                 {
-            //                     fieldName: 'expression/osm_bld_levels',
-            //                     label: 'Levels',
-            //                     visible: true,
-            //                     isEditable: false,
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            //     expressionInfos: [
-            //         {
-            //             name: 'osm_name',
-            //             title: 'Name',
-            //             expression: "decode($feature.OSMType,3,'', $feature['name'] )",
-            //             returnType: 'string',
-            //         },
-            //         {
-            //             name: 'osm_building',
-            //             title: 'Building',
-            //             expression: "decode($feature.OSMType,3,'', $feature['building'] )",
-            //             returnType: 'string',
-            //         },
-            //         {
-            //             name: 'osm_height',
-            //             title: 'Height',
-            //             expression:
-            //                 "decode($feature.OSMType, 3, '', Text($feature['height'], '#,##0.###'))",
-            //             returnType: 'string',
-            //         },
-            //         {
-            //             name: 'osm_bld_levels',
-            //             title: 'Levels',
-            //             expression: "decode($feature.OSMType,3,'', $feature['building_levels'] )",
-            //             returnType: 'string',
-            //         },
-            //         {
-            //             name: 'feature_url',
-            //             title: 'feature_url',
-            //             expression:
-            //                 "decode($feature.OSMType,0,'way/' + $feature['OSMID'],1,'relation/' + $feature['OSMID'],2,'MS','?')",
-            //             returnType: 'string',
-            //         },
-            //         {
-            //             name: 'aggregated_message',
-            //             title: 'aggregated_message',
-            //             expression:
-            //                 "decode($feature.OSMType,3,'Aggregated buildings on low level of detail.','')",
-            //             returnType: 'string',
-            //         },
-            //         {
-            //             name: 'view_this_feature',
-            //             title: 'view_this_feature',
-            //             expression: "decode($feature.OSMType,2,'',3,'','View this feature')",
-            //             returnType: 'string',
-            //         },
-            //         {
-            //             name: 'edit_this_feature',
-            //             title: 'edit_this_feature',
-            //             expression: "decode($feature.OSMType,2,'',3,'','Edit this feature')",
-            //             returnType: 'string',
-            //         },
-            //         {
-            //             name: 'in_osm',
-            //             title: 'in_osm',
-            //             expression: "decode($feature.OSMType,2,'',3,'','in OpenStreetMap')",
-            //             returnType: 'string',
-            //         },
-            //         {
-            //             name: 'copyright_msg',
-            //             title: 'copyright_msg',
-            //             expression:
-            //                 "decode($feature.OSMType,2,'by Microsoft and Esri Community Maps contributors','© OpenStreetMap contributors')",
-            //             returnType: 'string',
-            //         },
-            //     ],
-            // };
 
             const selectFeatures = (geometry: __esri.Geometry) => {
                 if (!sceneLayerView) return;
@@ -246,22 +166,6 @@ function EsriMap() {
                     console.log(results);
                 });
             };
-            // view.popup.autoOpenEnabled = false;
-
-            // view.on('click', (event) => {
-            //     try {
-            //         const lat = Math.round(event.mapPoint.latitude * 1000) / 1000;
-            //         const lon = Math.round(event.mapPoint.longitude * 1000) / 1000;
-
-            //         view.popup.open({
-            //             // Set the popup's title to the coordinates of the clicked location
-            //             title: 'Reverse geocode: [' + lon + ', ' + lat + ']',
-            //             location: event.mapPoint, // Set the location of the popup to the clicked location
-            //         });
-            //     } catch (err) {
-            //         console.log(err);
-            //     }
-            // });
 
             map.addMany([graphicsLayer, sceneLayer]);
         }
