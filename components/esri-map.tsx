@@ -26,7 +26,7 @@ function EsriMap() {
     const [area, setArea] = useState<number | null>(null);
     const [address, setAddress] = useState<string | null>(null);
     const [height, setHeight] = useState<number | null>(null);
-    const [isFetching, setIsFetching] = useState(null);
+    const [isFetching, setIsFetching] = useState<boolean | null>(null);
     const [isOpen, setIsOpen] = useState(true);
     useEffect(() => {
         if (mapDiv.current) {
@@ -82,7 +82,7 @@ function EsriMap() {
             });
             sceneLayer.capabilities.query.supportsQueryGeometry = true;
             sceneLayer.capabilities.query.supportsGeometryProperties = true;
-            let highlightSelect;
+            let highlightSelect: any;
             view.popup.autoOpenEnabled = false;
             view.popup.spinnerEnabled = true;
             view.on("click", (event) => {
@@ -106,7 +106,7 @@ function EsriMap() {
                                 `[out:json][timeout:25];
                         way(${osmid});
                         out geom;`,
-                                (a, b) => {
+                                (a: any, b: any) => {
                                     try {
                                         const area = geojsonArea.geometry(b.features[0].geometry);
                                         setArea(area);

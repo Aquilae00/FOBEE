@@ -130,8 +130,11 @@ export default function Popup({ data, onClose }: PopupProps): JSX.Element {
                                     />
                                 </Disclosure.Button>
                                 <Disclosure.Panel className="flex flex-col gap-base">
-                                    {Object.keys(Recommendations).map((key: string) => (
-                                        <Link href={Recommendations[key].url}>
+                                    {Object.keys(Recommendations).map((key: any, idx: number) => (
+                                        <Link
+                                            href={(Recommendations as any)[key].url}
+                                            key={`link-${idx}`}
+                                        >
                                             <a
                                                 target="_blank"
                                                 rel="noreferrer"
@@ -139,7 +142,7 @@ export default function Popup({ data, onClose }: PopupProps): JSX.Element {
                                             >
                                                 <h1 className="font-semibold">{key}</h1>
                                                 <div className="rounded-full h-[4px] w-[40px] bg-blue-500 my-xs" />
-                                                <span>{Recommendations[key].content}</span>
+                                                <span>{(Recommendations as any)[key].content}</span>
                                             </a>
                                         </Link>
                                     ))}
